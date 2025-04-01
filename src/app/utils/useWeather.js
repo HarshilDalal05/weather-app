@@ -41,10 +41,11 @@ const useWeather = (initialLocation = "New York") => {
       setLoading((prev) => ({ ...prev, weather: true }));
       const weatherData = await weatherApi?.getCurrentWeather(location);
       setWeather(weatherData);
+
       setHighlights(processHighlights(weatherData));
     } catch (error) {
       setError(error?.message);
-      console.log("Error fetching weather : ", error);
+      console.error("Error fetching weather : ", error);
     } finally {
       setLoading((prev) => ({ ...prev, weather: false }));
     }
@@ -61,7 +62,7 @@ const useWeather = (initialLocation = "New York") => {
       setForcast(dailyForecasts);
     } catch (error) {
       setError(error?.message);
-      console.log("Error fetching forecast : ", error);
+      console.error("Error fetching forecast : ", error);
     } finally {
       setLoading((prev) => ({ ...prev, forecast: false }));
     }
@@ -74,7 +75,7 @@ const useWeather = (initialLocation = "New York") => {
       setCitiesWeather(weatherData);
     } catch (error) {
       setError(error?.message);
-      console.log("Error fetching cities weather : ", error);
+      console.error("Error fetching cities weather : ", error);
     } finally {
       setLoading((prev) => ({ ...prev, cities: false }));
     }
