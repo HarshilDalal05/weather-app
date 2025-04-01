@@ -20,15 +20,15 @@ const useWeather = (initialLocation = "New York") => {
     const { wind, main, visibility, sys } = data;
 
     return {
-      wind: wind.speed,
-      humidity: main.humidity,
+      wind: wind?.speed,
+      humidity: main?.humidity,
       uv: 0,
       visibility: (visibility / 1000).toFixed(1),
-      sunrise: new DataTransfer(sys.sunrise * 1000).toLocaleTimeString([], {
+      sunrise: new Date(sys.sunrise * 1000).toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
       }),
-      sunset: new DataTransfer(sys.sunset * 1000).toLocaleTimeString([], {
+      sunset: new Date(sys.sunset * 1000).toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
       }),
@@ -39,11 +39,11 @@ const useWeather = (initialLocation = "New York") => {
     try {
       setError(null);
       setLoading((prev) => ({ ...prev, weather: true }));
-      const weatherData = await weatherApi.getCurrentWeather(location);
+      const weatherData = await weatherApi?.getCurrentWeather(location);
       setWeather(weatherData);
       setHighlights(processHighlights(weatherData));
     } catch (error) {
-      setError(error.message);
+      setError(error?.message);
       console.log("Error fetching weather : ", error);
     } finally {
       setLoading((prev) => ({ ...prev, weather: false }));
@@ -53,14 +53,14 @@ const useWeather = (initialLocation = "New York") => {
   const fetchForecastData = async () => {
     try {
       setLoading((prev) => ({ ...prev, weather: true }));
-      const forecastData = await weatherApi.getForecast(location);
-      const dailyForecasts = forecastData.list
+      const forecastData = await weatherApi?.getForecast(location);
+      const dailyForecasts = forecastData?.list
         .filter((item, index) => index % 8 === 0)
         .slice(0, 5);
 
       setForcast(dailyForecasts);
     } catch (error) {
-      setError(error.message);
+      setError(error?.message);
       console.log("Error fetching forecast : ", error);
     } finally {
       setLoading((prev) => ({ ...prev, forecast: false }));
@@ -70,10 +70,10 @@ const useWeather = (initialLocation = "New York") => {
   const fetchCitiesWeatherData = async () => {
     try {
       setLoading((prev) => ({ ...prev, cities: true }));
-      const weatherData = await weatherApi.getMultiCitiesWeather(cities);
-      setCities(weather);
+      const weatherData = await weatherApi?.getMultiCitiesWeather(cities);
+      setCitiesWeather(weatherData);
     } catch (error) {
-      setError(error.message);
+      setError(error?.message);
       console.log("Error fetching cities weather : ", error);
     } finally {
       setLoading((prev) => ({ ...prev, cities: false }));

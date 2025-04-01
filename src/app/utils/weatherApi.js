@@ -9,7 +9,6 @@ const weatherApi = {
     if (!city) return;
 
     try {
-      console.log({ key: API_KEY, url: `${BASE_URL}/weather` });
       const response = await axios.get(`${BASE_URL}/weather`, {
         params: {
           q: city,
@@ -17,8 +16,7 @@ const weatherApi = {
           appid: API_KEY,
         },
       });
-
-      return response && response.status === 0 ? response.data : null;
+      return response && response.status === 200 ? response.data : null;
     } catch (error) {
       throw new Error(
         error.response?.data?.message || "Falied to fetch weather data"
@@ -30,7 +28,6 @@ const weatherApi = {
   getForecast: async (city) => {
     if (!city) return;
     try {
-      console.log({ key: API_KEY, url: `${BASE_URL}/forecast` });
       const response = await axios.get(`${BASE_URL}/forecast`, {
         params: {
           q: city,
@@ -38,8 +35,7 @@ const weatherApi = {
           appid: API_KEY,
         },
       });
-
-      return response && response.status === 0 ? response.data : null;
+      return response && response.status === 200 ? response.data : null;
     } catch (error) {
       throw new Error(
         error.response?.data?.message || "Falied to fetch weather data"
@@ -51,9 +47,8 @@ const weatherApi = {
   getMultiCitiesWeather: async (cities) => {
     if (cities.length === 0 || !cities) return;
     try {
-      console.log({ key: API_KEY, url: `${BASE_URL}/forecast` });
       const promises = cities.map((city) =>
-        axios.get(`${BASE_URL}/forecast`, {
+        axios.get(`${BASE_URL}/weather`, {
           params: {
             q: city,
             units: "imperial",
@@ -61,12 +56,8 @@ const weatherApi = {
           },
         })
       );
-
-      const response = await Promise.call(promises);
-
-      return response.map((response) =>
-        response && response.status === 0 ? response.data : null
-      );
+      const response = await Promise.all(promises);
+      return response.map((response) => (response ? response.data : null));
     } catch (error) {
       throw new Error(
         error.response?.data?.message || "Falied to fetch weather data"
