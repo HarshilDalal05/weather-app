@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import weatherApi from "./weatherApi";
 
-const useWeather = (initialLocation = "New York") => {
+const useWeather = (initialLocation = "Surat") => {
   const [weather, setWeather] = useState(null);
   const [highlights, setHighlights] = useState(null);
   const [location, setLocation] = useState(initialLocation || "");

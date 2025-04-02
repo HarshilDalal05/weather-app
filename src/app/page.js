@@ -1,6 +1,7 @@
 "use client";
 
 import SearchBar from "./components/SearchBar";
+import WeatherApp from "./components/WeatherApp";
 import WeatherCard from "./components/WeatherCard";
 import useWeather from "./utils/useWeather";
 
@@ -10,8 +11,9 @@ export default function Home() {
     loading,
     error,
     location,
-    setLocation,
+    forecast,
     temperatureUnit,
+    setLocation,
     setTemperatureUnit,
   } = useWeather();
   if (loading.weather) return <div>Loading...</div>;
@@ -44,6 +46,13 @@ export default function Home() {
               onToggle={setTemperatureUnit}
             />
           )}
+        </div>
+        <div>
+          <WeatherApp
+            forecast={forecast}
+            loading={loading.forecast}
+            unit={temperatureUnit}
+          />
         </div>
       </div>
     </div>

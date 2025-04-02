@@ -107,21 +107,25 @@ const WeatherCard = ({ weather, unit, onToggle }) => {
         <TemperatureToggle unit={unit} onToggle={onToggle} />
       </div>
       <DateDisplay date={date} />
-      <div className="flex justify-center items-center">
-        <WeatherIcon icon={weatherIcon} description={weatherDescription} />
-        <TemperatureDisplay
-          temp={temp}
-          feelsLike={feelsLike}
-          description={weatherDescription}
-          unit={unit}
-        />
+      <div className="flex justify-between items-center">
+        <div className="flex justify-center items-center">
+          <WeatherIcon icon={weatherIcon} description={weatherDescription} />
+          <TemperatureDisplay
+            temp={temp}
+            feelsLike={feelsLike}
+            description={weatherDescription}
+            unit={unit}
+          />
+        </div>
+        <div className="flex justify-center items-center">
+          <WeatherDetails
+            wind={wind.speed}
+            humidity={main.humidity}
+            pressure={main.pressure}
+            visibility={visibility}
+          />
+        </div>
       </div>
-      <WeatherDetails
-        wind={wind.speed}
-        humidity={main.humidity}
-        pressure={main.pressure}
-        visibility={visibility}
-      />
     </div>
   );
 };
