@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import moment from "moment-timezone";
 import { FaWind } from "react-icons/fa";
@@ -6,10 +8,12 @@ import { convertTemperature, formatTemperature } from "../utils/temperature";
 const LoadingState = () => {
   return (
     <div className="animate-pulse">
-      <div className="h-8 bg-gray-700 rounded w-1/4 mb-4"></div>
+      <div className="h-8 bg-gray-700 rounded w-1/4 mb-4"> </div>
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         {[...Array(5)].map((_, i) => {
-          <div key={i} className="bg-gray-700 rounded-lg p-4 h-32"></div>;
+          return (
+            <div key={i} className="bg-gray-700 rounded-lg p-4 h-32"></div>
+          );
         })}
       </div>
     </div>
