@@ -75,20 +75,23 @@ export default function Home() {
           )}
           {highlights && <Highlights highlights={highlights} />}
         </div>
-        <div className="mt-6 flex flex-col lg:flex-row gap-4">
-          <WeatherList
-            citiesWeather={citiesWeather}
-            loading={loading.cities}
-            unit={temperatureUnit}
-            onAddCity={handleAddCity}
-            onRemoveCity={handleRemoveCity}
-          />
-
-          <WeatherApp
-            forecast={forecast}
-            loading={loading.forecast}
-            unit={temperatureUnit}
-          />
+        <div>
+          <div className="my-10">
+            <WeatherList
+              citiesWeather={citiesWeather}
+              loading={loading.cities}
+              unit={temperatureUnit}
+              onAddCity={handleAddCity}
+              onRemoveCity={handleRemoveCity}
+            />
+          </div>
+          <div className="my-10">
+            <WeatherApp
+              forecast={forecast}
+              loading={loading.forecast}
+              unit={temperatureUnit}
+            />
+          </div>
         </div>
       </div>
     </div>

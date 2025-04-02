@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import weatherApi from "./weatherApi";
 
-const useWeather = (initialLocation = "Surat") => {
+const useWeather = () => {
   const [weather, setWeather] = useState(null);
   const [highlights, setHighlights] = useState(null);
-  const [location, setLocation] = useState(initialLocation || "");
+  const [location, setLocation] = useState("");
   const [forecast, setForcast] = useState(null);
   const [citiesWeather, setCitiesWeather] = useState([]);
   const [temperatureUnit, setTemperatureUnit] = useState("F");
@@ -14,7 +14,7 @@ const useWeather = (initialLocation = "Surat") => {
     cities: true,
   });
   const [error, setError] = useState(null);
-  const [cities, setCities] = useState(["London", "Tokyo"]);
+  const [cities, setCities] = useState(["Mumbai", "Delhi"]);
 
   const processHighlights = (data) => {
     const { wind, main, visibility, sys } = data;
@@ -39,10 +39,29 @@ const useWeather = (initialLocation = "Surat") => {
     try {
       setError(null);
       setLoading((prev) => ({ ...prev, weather: true }));
-      const weatherData = await weatherApi?.getCurrentWeather(location);
-      setWeather(weatherData);
 
-      setHighlights(processHighlights(weatherData));
+      if (location) {
+        const weatherData = await weatherApi?.getCurrentWeather(location);
+        setWeather(weatherData);
+        setHighlights(processHighlights(weatherData));
+      } else {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            async (position) => {
+              const { latitude, longitude } = position.coords;
+              const weatherData = await weatherApi.getCurrentLocationWeather(
+                latitude,
+                longitude
+              );
+              setWeather(weatherData);
+              setHighlights(processHighlights(weatherData));
+            },
+            (error) => {
+              console.error("Error getting location: ", error);
+            }
+          );
+        }
+      }
     } catch (error) {
       setError(error?.message);
       console.error("Error fetching weather : ", error);
@@ -54,12 +73,35 @@ const useWeather = (initialLocation = "Surat") => {
   const fetchForecastData = async () => {
     try {
       setLoading((prev) => ({ ...prev, weather: true }));
-      const forecastData = await weatherApi?.getForecast(location);
-      const dailyForecasts = forecastData?.list
-        .filter((item, index) => index % 8 === 0)
-        .slice(0, 5);
 
-      setForcast(dailyForecasts);
+      if (location) {
+        const forecastData = await weatherApi?.getForecast(location);
+        const dailyForecasts = forecastData?.list
+          .filter((item, index) => index % 8 === 0)
+          .slice(0, 5);
+
+        setForcast(dailyForecasts);
+      } else {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            async (position) => {
+              const { latitude, longitude } = position.coords;
+              const forecastData = await weatherApi.getCurrentLocationForecast(
+                latitude,
+                longitude
+              );
+              const dailyForecasts = forecastData?.list
+                .filter((item, index) => index % 8 === 0)
+                .slice(0, 5);
+
+              setForcast(dailyForecasts);
+            },
+            (error) => {
+              console.error("Error getting location: ", error);
+            }
+          );
+        }
+      }
     } catch (error) {
       setError(error?.message);
       console.error("Error fetching forecast : ", error);

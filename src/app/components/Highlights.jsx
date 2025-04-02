@@ -21,7 +21,7 @@ const HighlightsCard = ({ icon: Icon, title, value, unit = "" }) => {
 
 const Highlights = ({ highlights }) => {
   if (!highlights) return null;
-  const { wind, humidity, visiblity, sunrise, sunset, uv } = highlights;
+  const { wind, humidity, visibility, sunrise, sunset, uv } = highlights;
   return (
     <div className="flex-1 bg-[#1e1e1e] rounded-xl p-6">
       <h2 className="text-xl font-semibold mb-4">Today&apos;s Highlights</h2>
@@ -40,9 +40,9 @@ const Highlights = ({ highlights }) => {
         />
         <HighlightsCard
           icon={FaEye}
-          title="Wind Speed"
-          value={visiblity}
-          unit="m/s"
+          title="Visibility"
+          value={visibility}
+          unit="km"
         />
         <HighlightsCard icon={FaTemperatureHigh} title="UV Index" value={uv} />
         <HighlightsCard icon={FiSunrise} title="Sunrise" value={sunrise} />

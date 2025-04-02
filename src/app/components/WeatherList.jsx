@@ -25,7 +25,7 @@ const CityWeatherCard = ({ city, unit, onRemove }) => {
     <div className="bg-[#1e1e1e] rounded-lg p-4 relative group">
       <button
         onClick={() => onRemove(city.id)}
-        className="absolute top-2 right-2 text-gray-400 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
+        className="absolute top-0 right-2 text-gray-400 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
         aria-label="Remove city"
       >
         <FaTimes />
@@ -35,6 +35,11 @@ const CityWeatherCard = ({ city, unit, onRemove }) => {
           <h3 className="text-lg font-semibold">{city.name}</h3>
           <h3 className="text-sm text-gray-400">{city.sys.country}</h3>
         </div>
+        <img
+          src={`https://openweathermap.org/img/wn/${weatherIcon}.png`}
+          alt={description}
+          className="w-12 h-12 mx-auto mt-2"
+        />
         <div className="text-right">
           <div className="text-xl font-bold">
             {formatTemperature(temp, unit)}
@@ -42,11 +47,6 @@ const CityWeatherCard = ({ city, unit, onRemove }) => {
           <div className="text-sm text-gray-400 capitalize">{description}</div>
         </div>
       </div>
-      <img
-        src={`https://openweathermap.org/img/wn/${weatherIcon}.png`}
-        alt={description}
-        className="w-12 h-12 mx-auto mt-2"
-      />
     </div>
   );
 };
@@ -131,7 +131,7 @@ const WeatherList = ({
         </button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {citiesWeather.map((city) => {
+        {citiesWeather?.map((city) => {
           return (
             <CityWeatherCard
               key={city.id}
