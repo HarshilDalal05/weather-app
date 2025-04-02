@@ -1,5 +1,6 @@
 "use client";
 
+import Highlights from "./components/Highlights";
 import SearchBar from "./components/SearchBar";
 import WeatherApp from "./components/WeatherApp";
 import WeatherCard from "./components/WeatherCard";
@@ -13,6 +14,7 @@ export default function Home() {
     location,
     forecast,
     temperatureUnit,
+    highlights,
     setLocation,
     setTemperatureUnit,
   } = useWeather();
@@ -46,6 +48,7 @@ export default function Home() {
               onToggle={setTemperatureUnit}
             />
           )}
+          {highlights && <Highlights highlights={highlights} />}
         </div>
         <div>
           <WeatherApp
