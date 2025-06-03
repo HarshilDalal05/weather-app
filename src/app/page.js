@@ -22,6 +22,21 @@ export default function Home() {
     setTemperatureUnit,
   } = useWeather();
 
+  function greetUser() {
+    const hours = new Date().getHours();
+    let greeting;
+
+    if (hours < 12) {
+      greeting = "Good Morning";
+    } else if (hours < 18) {
+      greeting = "Good Afternoon";
+    } else {
+      greeting = "Good Evening";
+    }
+
+    return greeting;
+  }
+
   const handleAddCity = async (cityName) => {
     try {
       const response = await fetch(
@@ -51,9 +66,9 @@ export default function Home() {
       <div className="flex-1 p-6">
         <div className=" flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex flex-col ml-2 mb-4">
-            <span className="text-lg md:text-xl lg:text-lg">Hi, Harshil</span>
+            <span className="text-lg md:text-xl lg:text-lg">Hello</span>
             <span className="text-sm md:text-md lg:text-xl font-bold">
-              Good Morning
+              {greetUser()}
             </span>
           </div>
           <div className="flex items-center gap-4 mb-4">
@@ -83,6 +98,7 @@ export default function Home() {
               unit={temperatureUnit}
               onAddCity={handleAddCity}
               onRemoveCity={handleRemoveCity}
+              setLocation={setLocation}
             />
           </div>
           <div className="my-10">

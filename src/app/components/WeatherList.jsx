@@ -17,12 +17,17 @@ const LoadingState = () => {
   );
 };
 
-const CityWeatherCard = ({ city, unit, onRemove }) => {
+const CityWeatherCard = ({ city, unit, onRemove, setLocation }) => {
   const temp = convertTemperature(city?.main?.temp, unit);
   const weatherIcon = city.weather[0]?.icon;
   const description = city.weather[0]?.description;
   return (
-    <div className="bg-[#1e1e1e] rounded-lg p-4 relative group">
+    <div
+      className="bg-[#1e1e1e] rounded-lg p-4 relative group"
+      onClick={() => {
+        setLocation(city.name);
+      }}
+    >
       <button
         onClick={() => onRemove(city.id)}
         className="absolute top-0 right-2 text-gray-400 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
@@ -103,6 +108,7 @@ const WeatherList = ({
   unit,
   onAddCity,
   onRemoveCity,
+  setLocation,
 }) => {
   const [modelOpen, setModelOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -138,6 +144,7 @@ const WeatherList = ({
               city={city}
               unit={unit}
               onRemove={onRemoveCity}
+              setLocation={setLocation}
             />
           );
         })}
